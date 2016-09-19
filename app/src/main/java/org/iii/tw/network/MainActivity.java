@@ -8,6 +8,9 @@ import android.telecom.ConnectionService;
 import android.util.Log;
 import android.view.View;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -88,11 +91,18 @@ public class MainActivity extends AppCompatActivity {
 
                     data = reader.readLine();   //因為撈的資料只有1列  如果2列以上用while
                     reader.close();
-                    Log.d("brad", data);
+                    parseJSON();
                 } catch (Exception e) {
                     Log.d("brad", e.toString());
                 }
             }
         }
-
+    private void parseJSON(){
+        try {
+            JSONArray root = new JSONArray(data);
+            Log.d("brad","==>"+root.length());
+        } catch (JSONException e) {
+            Log.d("brad",e.toString());
+        }
+    }
 }
