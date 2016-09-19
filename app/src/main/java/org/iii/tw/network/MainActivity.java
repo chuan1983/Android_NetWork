@@ -8,7 +8,9 @@ import android.telecom.ConnectionService;
 import android.util.Log;
 import android.view.View;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -21,6 +23,7 @@ import java.util.Enumeration;
 public class MainActivity extends AppCompatActivity {
 
     private ConnectivityManager mgr;
+    private String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +81,14 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             super.run();
                 try {
-                    URL url = new URL("http://www.google.com");                //抓取google 的原始碼
+                    URL url = new URL("http://data.coa.gov.tw/Service/OpenData/EzgoTravelFoodStay.aspx");                //抓取google 的原始碼
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
-                    InputStream in = conn.getInputStream();
-                    int c;
-                    StringBuffer sb = new StringBuffer();
-                    while ((c = in.read()) != -1) {
-                        sb.append((char) c);
-                    }
-                    in.close();
-                    Log.d("brad", sb.toString());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    data = reader.readLine();   //因為撈的資料只有1列  如果2列以上用while
+                    reader.close();
+                    Log.d("brad", data);
                 } catch (Exception e) {
                     Log.d("brad", e.toString());
                 }
