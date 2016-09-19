@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo info = mgr.getActiveNetworkInfo();       //
+        mgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);  //
+        NetworkInfo info = mgr.getActiveNetworkInfo();       //取得活動的網路
         if(info!=null && info.isConnected()){               //判斷是否連線
             try {
                 Enumeration<NetworkInterface>ifs = NetworkInterface.getNetworkInterfaces();
@@ -41,5 +41,8 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Log.d("brad","Not Connect");
         }
+    }
+    public void test1(){
+
     }
 }
