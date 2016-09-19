@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.telecom.ConnectionService;
 import android.util.Log;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 public class MainActivity extends AppCompatActivity {
 
     private ConnectivityManager mgr;
@@ -17,9 +23,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo info = mgr.getActiveNetworkInfo();
-        if(info.isConnected()){
-            Log.d("brad", "Connect ok");
+        NetworkInfo info = mgr.getActiveNetworkInfo();       //
+        if(info.isConnected()){               //判斷是否連線
+            try {
+                Enumeration<NetworkInterface>ifs = NetworkInterface.getNetworkInterfaces();
+                while (ifs.hasMoreElements()){
+                    NetworkInterface ip = ifs.nextElement();
+                    Enumeration<InetAddress>ips = ip.getInetAddresses();
+                    while (ips.hasMoreElements()){
+                        InetAddress ia = ips.nextElement();
+                        Log.d("brad",ia.getHostAddress());
+                    }
+                }
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
         }else{
             Log.d("brad","Connect fail");
         }
