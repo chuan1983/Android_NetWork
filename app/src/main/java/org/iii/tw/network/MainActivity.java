@@ -47,21 +47,27 @@ public class MainActivity extends AppCompatActivity {
             Log.d("brad","Not Connect");
         }
     }
-    public void test1(View v){
-        try {
-            URL url= new URL("http://");
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.connect();
-            InputStream in = conn.getInputStream();
-            int c;
-            StringBuffer sb = new StringBuffer();
-            while ((c = in.read()) != -1){
-                sb.append((char)c);
+    public void test1(View v){     //try不能為主執行序 一定要包在執行序裡
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL("http://www.google.com");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.connect();
+                    InputStream in = conn.getInputStream();
+                    int c;
+                    StringBuffer sb = new StringBuffer();
+                    while ((c = in.read()) != -1) {
+                        sb.append((char) c);
+                    }
+                    in.close();
+                    Log.d("brad", sb.toString());
+                } catch (Exception e) {
+                    Log.d("brad", e.toString());
+                }
             }
-            in.close();
-            Log.d("brad",sb.toString());
-        } catch (Exception e) {
-           Log.d("brad", e.toString());
-        }
+        }.start();
     }
 }
