@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         mgr = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo info = mgr.getActiveNetworkInfo();       //
-        if(info.isConnected()){               //判斷是否連線
+        if(info!=null && info.isConnected()){               //判斷是否連線
             try {
                 Enumeration<NetworkInterface>ifs = NetworkInterface.getNetworkInterfaces();
                 while (ifs.hasMoreElements()){
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }else{
-            Log.d("brad","Connect fail");
+            Log.d("brad","Not Connect");
         }
     }
 }
